@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'back-auth-service'
+
+include(":boot",
+        ":api-rest",
+        ":aws-provider",
+        ":security-provider",
+        ":jpa-repository",
+        ":application",
+        ":domain",
+        ":security"
+)
+
+project(":boot").projectDir = file("./main-app/boot")
+
+project(":jpa-repository").projectDir = file("./infrastructure/driven-adapters/jpa-repository")
+project(":aws-provider").projectDir = file("./infrastructure/driven-adapters/aws-provider")
+project(":security-provider").projectDir = file("./infrastructure/driven-adapters/security-provider")
+
+project(":api-rest").projectDir = file("./infrastructure/entry-points/api-rest")
+project(":security").projectDir = file("./infrastructure/entry-points/security")
+
+project(":application").projectDir = file("./core/application")
+project(":domain").projectDir = file("./core/domain")

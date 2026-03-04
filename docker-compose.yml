@@ -1,0 +1,27 @@
+services:
+  postgres:
+    container_name: postgres_arka_auth
+    image: postgres:17.7
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile
+    image: arka_auth_img
+    env_file:
+      - .env.dev
+    profiles:
+      - full
+    container_name: arka_auth_service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    restart: unless-stopped

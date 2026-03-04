@@ -1,0 +1,12 @@
+apply plugin: 'org.springframework.boot'
+dependencies {
+    implementation project(":api-rest")
+    implementation project(":security-provider")
+    implementation project(":aws-provider")
+    implementation project(":application")
+    implementation project(":domain")
+    implementation project(":security")
+    implementation project(":jpa-repository")
+    implementation ("org.springframework.boot:spring-boot-starter")
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+}
