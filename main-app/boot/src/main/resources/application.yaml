@@ -44,7 +44,7 @@ spring:
   sql:
     init:
       #Turn to never ones created the schema and papulated the data to avoid duplication errors
-      mode: never
+      mode: always
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
 
@@ -59,7 +59,7 @@ management:
 
 jwt-provider:
   expiration-date : 3600000
-  secret: "sM|<EjC=de:|TC/(/ldr)ELFeqV$}dDwqn}/mZ5A2ug"
+  secret: ${JWT_SECRET}
   password-rest:
     token-expiration-minutes: 30
 
