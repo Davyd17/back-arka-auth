@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_REGION: "us-east-1"
+    AWS_ACCOUNT_ID: "524496304724"
+    ECR_REPO_NAME: "develop/back-arka-auth"
+    ECR_REPO_URI: "524496304724.dkr.ecr.us-east-1.amazonaws.com/develop/back-arka-auth"
+    CONTAINER_NAME: "back-arka-auth"
+
+phases:    
+  pre_build:
+    commands:
+      - echo "Logging into ECR..."
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO_URI
+      
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - BUILD_TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+      - IMAGE_TAG="${BUILD_TIMESTAMP}-${COMMIT_HASH:-latest}"
+      - echo "Image tag will be $IMAGE_TAG"
+    
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker build -f deployment/Dockerfile -t $ECR_REPO_URI:$IMAGE_TAG .
+      - docker tag $ECR_REPO_URI:$IMAGE_TAG $ECR_REPO_URI:latest
+    
+  post_build:
+    commands:
+      - echo "Pushing image to ECR..."
+      - docker push $ECR_REPO_URI:$IMAGE_TAG
+      - docker push $ECR_REPO_URI:latest
+      - echo "Creating imagedefinitions.json..."
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME "$ECR_REPO_URI:$IMAGE_TAG" > imagedefinitions.json
+      - cat imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
+  name: BuildArtifact
