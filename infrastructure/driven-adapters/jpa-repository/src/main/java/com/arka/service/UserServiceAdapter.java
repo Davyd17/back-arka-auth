@@ -35,6 +35,9 @@ public class UserServiceAdapter implements UserGateway {
 
         UserEntity entity = mapper.toEntity(user);
 
+        System.out.println("DEBUG 2 - Entity User: " + entity.getUsername());
+        System.out.println("DEBUG 2 - Entity User: " + entity.getEmail());
+
         return mapper.toDomain(userRepository.save(entity));
     }
 
