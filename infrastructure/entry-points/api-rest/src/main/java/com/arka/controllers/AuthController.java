@@ -64,8 +64,14 @@ public class AuthController {
     })
     public ResponseEntity<AuthRegisterResponse> register(@Valid @RequestBody UserRegisterRequest request) {
 
+        // Print the raw DTO to CloudWatch
+        System.out.println("DEBUG 1 - DTO: " + request);
+
         AuthRegisterOutput authOutput =
                 registerUserUseCase.execute(userMapper.toInput(request));
+
+        // Print the Entity to see if MapStruct actually moved the data
+        System.out.println("DEBUG 2 - Entity User: " + authOutput.user());
 
         AuthRegisterResponse response = authMapper.toResponse(authOutput);
 
