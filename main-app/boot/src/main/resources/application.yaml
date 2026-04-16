@@ -3,14 +3,18 @@ server:
   address: 0.0.0.0
 
 spring:
+
   jackson:
     time-zone: UTC
+
   application:
     name: "back-auth-service"
+
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
     hikari:
       autoCommit: true
       connectionTimeout: 30000
@@ -32,6 +36,7 @@ spring:
         cacheServerConfiguration: true
         elideSetAutoCommits: true
         maintainTimeStats: false
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -42,12 +47,10 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-  sql:
-    init:
-      #Turn to never ones created the schema and papulated the data to avoid duplication errors
-      mode: never
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 
 management:
   endpoints:
@@ -72,6 +75,7 @@ cloud-provider:
           templateHtml: ${S3_BUCKET_NAME:my-bucket}
     ses:
       sender: ${SES_SENDER_EMAIL:juansecabreram10@gmail.com}
+
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"

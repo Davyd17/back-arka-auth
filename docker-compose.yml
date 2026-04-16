@@ -16,9 +16,9 @@ services:
       dockerfile: deployment/Dockerfile
     image: arka_auth_img
     env_file:
-      - .env.dev
+      - .env.docker
     profiles:
-      - full
+      - deploy
     container_name: arka_auth_service
     ports:
       - "8081:8080"

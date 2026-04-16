@@ -1,7 +1,7 @@
 HELP.md
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
+
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -35,7 +35,72 @@ out/
 
 ### VS Code ###
 .vscode/
-.env
-.env.dev
 
-.log
+############################
+# Java
+############################
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+!gradle/wrapper/gradle-wrapper.jar
+
+############################
+# OS files
+############################
+.DS_Store
+Thumbs.db
+
+############################
+# Logs
+############################
+*.log
+logs/
+
+############################
+# Environment / Secrets
+############################
+.env.dev
+.env
+.env.docker
+!.env.example
+
+############################
+# Docker
+############################
+docker-data/
+docker-volumes/
+*.pid
+
+############################
+# Database
+############################
+*.dump
+*.backup
+
+############################
+# Test artifacts
+############################
+test-results/
+coverage/
+*.exec
+
+############################
+# Temporary / cache
+############################
+tmp/
+temp/
+.cache/
+
+############################
+# Kotlin (safe even if unused)
+############################
+*.kotlin_module
+
+############################
+# Node (in case frontend is added later)
+############################
+node_modules/
+dist/
