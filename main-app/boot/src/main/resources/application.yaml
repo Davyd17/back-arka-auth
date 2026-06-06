@@ -86,6 +86,9 @@ springdoc:
   api-docs:
     path: /v3/api-docs
 
+api:
+  base-url: ${API_BASE_URL}
+
 logging:
   level:
     org.springframework.security: DEBUG
