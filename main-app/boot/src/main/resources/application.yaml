@@ -79,6 +79,12 @@ cloud-provider:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
+    operationsSorter: method
+    tagsSorter: alpha
+    docExpansion: none
+    defaultModelsExpandDepth: -1
+  api-docs:
+    path: /v3/api-docs
 
 logging:
   level:
