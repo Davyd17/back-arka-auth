@@ -33,7 +33,6 @@ import java.net.URI;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "auth",description = "Flujo de autenticacion")
-@Server(description = "http://localhost:8081")
 public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
