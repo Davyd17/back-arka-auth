@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -18,13 +19,16 @@ import java.util.List;
 @Configuration
 public class OpenAPIConfig {
 
+    @Value("${api.base-url}")
+    String apiBaseUrl;
+
     @Bean
     public OpenAPI customOpenAPI() {
 
         final String securitySchemeName = "bearerAuth";
 
         Server server = new Server();
-        server.setUrl("http://localhost:8081");
+        server.setUrl(apiBaseUrl);
         server.description("Open API Documentation");
 
 
