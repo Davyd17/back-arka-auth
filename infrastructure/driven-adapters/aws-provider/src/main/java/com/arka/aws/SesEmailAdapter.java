@@ -1,6 +1,6 @@
 package com.arka.aws;
 
-import com.arka.model.request.EmailRequest;
+import com.arka.entities.request.EmailRequest;
 import com.arka.gateway.EmailGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,12 +1,11 @@
 package com.arka.service;
 
 import com.arka.mapper.UserEntityMapper;
-import com.arka.model.User;
+import com.arka.entities.User;
 import com.arka.gateway.repository.UserGateway;
 import com.arka.repository.UserRepository;
 import com.arka.tables.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

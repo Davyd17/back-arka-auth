@@ -149,8 +149,8 @@ Ejemplos:
 ```java
 package com.arka;
 
-import com.arka.model.User;
-import com.arka.model.enums.Role;
+import com.arka.entities.User;
+import com.arka.entities.enums.Role;
 import com.arka.dto.input.UserRegisterInput;
 import com.arka.exceptions.EmailAlreadyExistsException;
 import com.arka.gateway.JwtGateway;
@@ -296,9 +296,9 @@ class RegisterUserUseCaseTest {
 package com.arka.controllers;
 
 import com.arka.usecase.RegisterUserUseCase;
-import com.arka.model.Auth;
-import com.arka.model.UserResponse;
-import com.arka.model.enums.Role;
+import com.arka.entities.Auth;
+import com.arka.entities.UserResponse;
+import com.arka.entities.enums.Role;
 import com.arka.dto.input.UserRegisterInput;
 import com.arka.request.UserRegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;

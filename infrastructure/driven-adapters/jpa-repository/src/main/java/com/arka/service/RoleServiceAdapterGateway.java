@@ -2,10 +2,9 @@ package com.arka.service;
 
 import com.arka.gateway.repository.RoleRepositoryGateway;
 import com.arka.mapper.RoleEntityMapper;
-import com.arka.model.Role;
-import com.arka.model.enums.RoleName;
+import com.arka.entities.Role;
+import com.arka.enums.RoleName;
 import com.arka.repository.RoleJpaRepository;
-import com.arka.tables.RoleEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
