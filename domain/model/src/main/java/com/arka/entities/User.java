@@ -34,30 +34,17 @@ public class User {
 
     public void assignRole(Role role){
         this.role = role;
-        this.updatedAt = Instant.now();
-    }
-
-    public void assignId(Long id){
-        this.id = id;
-    }
-
-    public void updateRole(Role role){
-        this.role = role;
-        this.updatedAt = Instant.now();
     }
 
     public void updatePassword(String password){
         this.password = password;
-        this.updatedAt = Instant.now();
     }
 
     public void enable(){
         this.enabled = true;
-        this.updatedAt = Instant.now();
     }
 
     public void disable(){
         this.enabled = false;
-        this.updatedAt = Instant.now();
     }
 }
