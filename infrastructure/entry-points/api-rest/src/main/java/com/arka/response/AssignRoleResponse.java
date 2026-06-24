@@ -1,7 +1,7 @@
 package com.arka.response;
 
 import com.arka.dto.output.AssignRoleOutput;
-import com.arka.model.enums.RoleName;
+import com.arka.enums.RoleName;
 
 public record AssignRoleResponse(
 

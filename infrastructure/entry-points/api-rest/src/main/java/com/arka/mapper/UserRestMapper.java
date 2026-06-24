@@ -4,7 +4,6 @@ import com.arka.dto.input.UserLoginInput;
 import com.arka.dto.input.UserRegisterInput;
 import com.arka.dto.output.UserOutput;
 import com.arka.dto.output.UserSummary;
-import com.arka.model.User;
 import com.arka.request.UserLoginRequest;
 import com.arka.request.UserRegisterRequest;
 import com.arka.response.UserResponse;

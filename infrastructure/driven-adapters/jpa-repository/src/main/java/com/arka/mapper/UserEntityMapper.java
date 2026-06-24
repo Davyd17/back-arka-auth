@@ -1,6 +1,6 @@
 package com.arka.mapper;
 
-import com.arka.model.User;
+import com.arka.entities.User;
 import com.arka.tables.UserEntity;
 import org.mapstruct.Mapper;
 

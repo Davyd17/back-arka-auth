@@ -1,6 +1,6 @@
 package com.arka.tables;
 
-import com.arka.model.enums.RoleName;
+import com.arka.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
 

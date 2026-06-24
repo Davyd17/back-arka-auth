@@ -3,7 +3,7 @@ package com.arka;
 import com.arka.dto.value.SecurityUserDto;
 import com.arka.gateway.security.jwt.JwtGeneratorGateway;
 import com.arka.gateway.security.jwt.JwtManagerGateway;
-import com.arka.model.User;
+import com.arka.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;

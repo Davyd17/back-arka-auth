@@ -1,6 +1,6 @@
 package com.arka.user;
 
-import com.arka.model.Role;
+import com.arka.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
