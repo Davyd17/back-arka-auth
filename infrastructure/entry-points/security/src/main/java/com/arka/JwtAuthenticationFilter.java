@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
@@ -46,6 +48,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             SecurityUser userDetails = (SecurityUser) userDetailsService.loadUserByUsername(userEmail);
+
+            log.debug("User: {} | Authorities: {}", userEmail, userDetails.getAuthorities());
+
+            log.debug("Token valid: {} for user: {}", managerGateway.isTokenValid(jwt, mapper.toDto(userDetails)), userEmail);
 
             if (managerGateway.isTokenValid(jwt, mapper.toDto(userDetails))) {
                 var authToken = new UsernamePasswordAuthenticationToken(

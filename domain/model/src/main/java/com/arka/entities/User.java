@@ -13,6 +13,7 @@ public class User {
     private String email;
     private String password;
     private Role role;
+    private boolean verified;
     private boolean enabled;
     private Instant createdAt;
     private Instant updatedAt;
@@ -27,6 +28,7 @@ public class User {
                 .email(email)
                 .password(password)
                 .role(role)
+                .verified(false)
                 .enabled(true)
                 .createdAt(Instant.now())
                 .build();
@@ -38,6 +40,13 @@ public class User {
 
     public void updatePassword(String password){
         this.password = password;
+    }
+
+    public void verify(){
+        if(verified)
+            throw new IllegalStateException("User already verified");
+
+        this.verified = true;
     }
 
     public void enable(){

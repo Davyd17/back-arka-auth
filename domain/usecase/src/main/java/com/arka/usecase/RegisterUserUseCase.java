@@ -11,6 +11,7 @@ import com.arka.service.AuthService;
 import com.arka.service.RoleService;
 import com.arka.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 
 @RequiredArgsConstructor
 public class RegisterUserUseCase {
@@ -22,7 +23,8 @@ public class RegisterUserUseCase {
    private final RoleService roleService;
    private final AuthService authService;
 
-   private final UserMapper userMapper = UserMapper.INSTANCE;
+   private final UserMapper userMapper =
+           Mappers.getMapper(UserMapper.class);
 
 
     public AuthRegisterOutput execute(UserRegisterInput input) {

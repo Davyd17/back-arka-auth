@@ -1,7 +1,8 @@
 package com.arka.gateway;
 
-import com.arka.entities.request.EmailRequest;
+import com.arka.dto.value.VerificationCodeEmailDto;
 
 public interface EmailGateway {
-    void sendEmail(EmailRequest emailRequest);
+
+    void sendVerificationCode(VerificationCodeEmailDto codeEmail);
 }

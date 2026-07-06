@@ -8,6 +8,7 @@ import com.arka.exceptions.InvalidCredentialsException;
 import com.arka.gateway.repository.UserGateway;
 import com.arka.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 
 @RequiredArgsConstructor
 public class LoginUserUseCase {
@@ -16,7 +17,8 @@ public class LoginUserUseCase {
 
     private final AuthService authService;
 
-    private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final UserMapper userMapper =
+            Mappers.getMapper(UserMapper.class);
 
 
     public AuthLoginOutput execute(UserLoginInput input) {

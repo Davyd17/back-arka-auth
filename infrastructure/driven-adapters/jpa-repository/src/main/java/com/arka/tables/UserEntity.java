@@ -30,15 +30,18 @@ public class UserEntity {
     @Column(name = "password",  nullable = false)
     private String password;
 
-    @Column(name = "enabled",nullable = false)
-    private boolean enabled;
+    @Column(nullable = false, name = "is_enabled")
+    private boolean enabled = true;
+
+    @Column(nullable = false, name = "is_verified")
+    private boolean verified = false;
 
     @CreationTimestamp
     @Column(name = "createdAt",nullable = false, updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updatedAt",nullable = true)
+    @Column(name = "updatedAt")
     private Instant updatedAt;
 
     @ManyToOne

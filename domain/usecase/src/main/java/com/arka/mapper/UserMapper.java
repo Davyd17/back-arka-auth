@@ -10,8 +10,6 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface UserMapper {
 
-    UserMapper INSTANCE = new UserMapperImpl();
-
     UserOutput toOutput(User user);
 
     UserSummary toSummary(User user);

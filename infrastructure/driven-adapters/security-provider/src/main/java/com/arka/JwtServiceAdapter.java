@@ -29,8 +29,6 @@ public class JwtServiceAdapter implements JwtGeneratorGateway, JwtManagerGateway
     @Value("${jwt-provider.secret}")
     private String secret;
 
-    private final SecurityUserProviderMapper userMapper;
-
     private final Clock clock;
 
     /**
@@ -67,9 +65,7 @@ public class JwtServiceAdapter implements JwtGeneratorGateway, JwtManagerGateway
     public boolean isTokenValid(String token, SecurityUserDto user) {
 
         String email = extractEmail(token);
-        SecurityUser securityUser = userMapper.toSecurityUser(user);
-
-        return email.equals(securityUser.getUsername()) && !isTokenExpired(token);
+        return email.equals(user.emailAsUsername()) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
