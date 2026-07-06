@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
+@ToString
 public class Role {
 
     private Long id;

@@ -6,6 +6,7 @@ spring:
 
   jackson:
     time-zone: UTC
+    default-property-inclusion: non_null
 
   application:
     name: "back-auth-service"
@@ -70,11 +71,16 @@ jwt-provider:
 cloud-provider:
   aws:
     s3:
-      bucket-name:
-        objects:
-          templateHtml: ${S3_BUCKET_NAME:my-bucket}
-    ses:
-      sender: ${SES_SENDER_EMAIL:juansecabreram10@gmail.com}
+      bucket-name: ${BUCKET_NAME}
+      objects:
+        email-verification-template: ${S3_VERIFICATION_EMAIL_TEMPLATE}
+
+notifications:
+  email-settings:
+    sender: ${EMAIL_SENDER}
+    verification-code:
+      code-expiration-ms: 900000
+      subject: Verification code from Arka
 
 springdoc:
   swagger-ui:
@@ -90,3 +96,7 @@ springdoc:
 
 api:
   base-url: ${API_BASE_URL}
+
+logging:
+  level:
+    com.arka: DEBUG

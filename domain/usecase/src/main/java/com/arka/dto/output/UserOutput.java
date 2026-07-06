@@ -11,6 +11,7 @@ public record UserOutput(
         String email,
         Role role,
         boolean enabled,
+        boolean verified,
         Instant createdAt
 ) {
 }
