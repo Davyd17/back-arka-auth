@@ -3,17 +3,14 @@ package com.arka.controllers;
 import com.arka.dto.output.UserOutput;
 import com.arka.mapper.UserRestMapper;
 import com.arka.request.VerificationCodeRequest;
-import com.arka.response.ApiResponse;
+import com.arka.response.AppResponse;
 import com.arka.usecase.FindCurrentUserByEmailUseCase;
-import com.arka.usecase.FindSecurityUserByEmailUseCase;
 import com.arka.response.UserResponse;
+import com.arka.usecase.SendPasswordResetTokenEmailUseCase;
 import com.arka.usecase.SendVerificationCodeEmailUseCase;
 import com.arka.usecase.VerifyUserEmailUseCase;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final FindCurrentUserByEmailUseCase findCurrentUserByEmailUseCase;
+    private final SendPasswordResetTokenEmailUseCase sendPasswordResetTokenEmailUseCase;
     private final UserRestMapper userMapper;
     private final SendVerificationCodeEmailUseCase sendVerificationCodeEmailUseCase;
     private final VerifyUserEmailUseCase verifyUserEmailUseCase;
@@ -39,26 +37,36 @@ public class UserController {
     }
 
     @PostMapping("/send-code")
-    public ResponseEntity<ApiResponse<Void>> sendEmailVerificationCode(Authentication authentication) {
+    public ResponseEntity<AppResponse<Void>> sendEmailVerificationCode(Authentication authentication) {
 
         sendVerificationCodeEmailUseCase.execute(authentication.getName());
 
-        return ResponseEntity.ok(ApiResponse.success("VERIFICATION_CODE_SENT",
+        return ResponseEntity.ok(AppResponse.success("VERIFICATION_CODE_SENT",
                 "Email verification code sent successfully"));
     }
 
     @PatchMapping("/verify-email")
-    public ResponseEntity<ApiResponse<Void>> verifyUserEmail(Authentication authentication,
+    public ResponseEntity<AppResponse<Void>> verifyUserEmail(Authentication authentication,
                                                              @RequestBody VerificationCodeRequest request){
 
         verifyUserEmailUseCase.execute
                 (authentication.getName(), request.verificationCode());
 
-        return ResponseEntity.ok(ApiResponse.success(
+        return ResponseEntity.ok(AppResponse.success(
                 "USER_VERIFIED",
                 String.format("User with email %s has been verified successfully",
                         authentication.getName())
         ));
+    }
+
+    @PostMapping("/send-password-reset-token")
+    public ResponseEntity<AppResponse<Void>> sendEmailPasswordResetToken(Authentication authentication){
+
+        sendPasswordResetTokenEmailUseCase.execute(authentication.getName());
+
+        return ResponseEntity.ok(AppResponse.success(
+                "PASSWORD_RESET_TOKEN_SENT",
+                "Password reset token sent successfully"));
     }
 
 

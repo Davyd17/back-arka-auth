@@ -74,6 +74,7 @@ cloud-provider:
       bucket-name: ${BUCKET_NAME}
       objects:
         email-verification-template: ${S3_VERIFICATION_EMAIL_TEMPLATE}
+        email-password-reset-template: ${S3_PASSWORD_RESET_TEMPLATE}
 
 notifications:
   email-settings:
@@ -81,6 +82,10 @@ notifications:
     verification-code:
       code-expiration-ms: 900000
       subject: Verification code from Arka
+    password-reset:
+      token-expiration-ms: 300000
+      subject: Reset password request from Arka
+
 
 springdoc:
   swagger-ui:

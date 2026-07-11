@@ -21,6 +21,9 @@ public class S3Adapter implements CloudStorageGateway {
     @Value("${cloud-provider.aws.s3.objects.email-verification-template}")
     private String verificationEmailTemplate;
 
+    @Value("${cloud-provider.aws.s3.objects.email-password-reset-template}")
+    private String resetPasswordEmailTemplate;
+
     public String getVerificationEmailTemplate() {
 
         try {
@@ -30,6 +33,20 @@ public class S3Adapter implements CloudStorageGateway {
         } catch (S3Exception e) {
             log.error("Failed to fetch template from S3: {}", e.getMessage());
             throw new TemplateStorageException("Could not download verification email template", e);
+        }
+    }
+
+    @Override
+    public String getPasswordResetEmailTemplate() {
+
+        try {
+            return s3StorageService.download(
+                    resetPasswordEmailTemplate, bucket).asUtf8String();
+
+        } catch (S3Exception e) {
+            log.error("Failed to fetch reset password email template from S3: {}", e.getMessage());
+            throw new TemplateStorageException("Could not download password reset email template", e);
+
         }
     }
 }
