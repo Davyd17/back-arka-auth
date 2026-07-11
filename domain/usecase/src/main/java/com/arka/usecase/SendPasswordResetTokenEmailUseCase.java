@@ -36,6 +36,8 @@ public class SendPasswordResetTokenEmailUseCase {
 
                 }).orElseGet(() -> PasswordResetToken.create(foundUser.getId(), expiration));
 
+        passwordResetTokenGateway.save(token);
+
         emailGateway.sendPasswordResetToken(
                 buildEmail(recipient, foundUser.getUsername(), token.getToken()));
     }

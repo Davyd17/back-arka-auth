@@ -8,4 +8,5 @@ public interface PasswordResetTokenGateway {
 
     Optional<PasswordResetToken> findByUserId(Long id);
 
+    PasswordResetToken save(PasswordResetToken token);
 }
