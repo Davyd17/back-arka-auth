@@ -34,6 +34,7 @@ public class PasswordResetToken {
     public void reGenerate(Instant expiresAt) {
         this.token = generateToken();
         this.expiresAt = expiresAt;
+        this.used = false;
     }
 
     public boolean isExpired() {
