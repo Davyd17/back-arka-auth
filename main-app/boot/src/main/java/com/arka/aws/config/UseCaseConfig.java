@@ -1,5 +1,6 @@
 package com.arka.aws.config;
 
+import com.arka.dto.value.PasswordResetTokenPolicy;
 import com.arka.dto.value.VerificationCodePolicy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +24,10 @@ import org.springframework.context.annotation.FilterType;
 public class UseCaseConfig {
 
     @Value("${notifications.email-settings.verification-code.code-expiration-ms}")
-    long codeExpirationAtMs;
+    private long codeExpirationAtMs;
+
+    @Value("${notifications.email-settings.password-reset.token-expiration-ms}")
+    private long tokenExpirationMs;
 
     /**
      * Constructs the {@link VerificationCodePolicy} domain object from
@@ -34,5 +38,17 @@ public class UseCaseConfig {
     @Bean
     public VerificationCodePolicy verificationCodePolicy(){
         return new VerificationCodePolicy(codeExpirationAtMs);
+    }
+
+
+    /**
+     * Constructs the {@link PasswordResetTokenPolicy} domain object from
+     * externalized configuration, keeping Spring annotations out of the domain layer.
+     *
+     * @return a configured {@link PasswordResetTokenPolicy} instance
+     */
+    @Bean
+    public PasswordResetTokenPolicy passwordResetTokenPolicy(){
+        return new PasswordResetTokenPolicy(tokenExpirationMs);
     }
 }
