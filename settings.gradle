@@ -11,8 +11,8 @@ include(":boot",
         ":aws-provider",
         ":security-provider",
         ":jpa-repository",
-        ":application",
-        ":domain",
+        ":usecase",
+        ":model",
         ":security"
 )
 
@@ -25,5 +25,5 @@ project(":security-provider").projectDir = file("./infrastructure/driven-adapter
 project(":api-rest").projectDir = file("./infrastructure/entry-points/api-rest")
 project(":security").projectDir = file("./infrastructure/entry-points/security")
 
-project(":application").projectDir = file("./core/application")
-project(":domain").projectDir = file("./core/domain")
+project(":usecase").projectDir = file("./domain/usecase")
+project(":model").projectDir = file("./domain/model")

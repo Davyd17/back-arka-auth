@@ -1,29 +1,29 @@
 package com.arka.controllers;
 
+import com.arka.dto.input.PasswordResetInput;
 import com.arka.dto.output.AuthLoginOutput;
 import com.arka.dto.output.AuthRegisterOutput;
 import com.arka.mapper.AuthRestMapper;
 import com.arka.mapper.UserRestMapper;
-import com.arka.model.request.ForgotPassword;
-import com.arka.request.ForgotPasswordRequest;
+import com.arka.request.PasswordResetRequest;
 import com.arka.request.UserLoginRequest;
 import com.arka.request.UserRegisterRequest;
-import com.arka.request.ResetPasswordRequest;
+import com.arka.response.AppResponse;
 import com.arka.response.AuthLoginResponse;
 import com.arka.response.AuthRegisterResponse;
-import com.arka.response.MessageResponse;
 import com.arka.usecase.LoginUserUseCase;
+import com.arka.usecase.PasswordResetUseCase;
 import com.arka.usecase.RegisterUserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -32,17 +32,19 @@ import java.net.URI;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "auth",description = "Flujo de autenticacion")
+@Tag(name = "auth", description = "Flujo de autenticacion")
 public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
     private final LoginUserUseCase loginUserUseCase;
+    private final PasswordResetUseCase passwordResetUseCase;
 
     private final UserRestMapper userMapper;
     private final AuthRestMapper authMapper;
 
     /**
      * Creacion de usuarios en el sistema
+     *
      * @param request objeto de entrada para ejecucion del servicio
      * @return AuthResponse con el cliente creado
      */
@@ -94,5 +96,17 @@ public class AuthController {
         return ResponseEntity.ok(authMapper.toResponse(authOutput));
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<AppResponse<Void>> resetPassword(Authentication authentication,
+                                                           @Valid @RequestBody PasswordResetRequest request,
+                                                           @RequestParam("token") String token) {
+
+        String email = authentication.getName();
+        passwordResetUseCase.execute(new PasswordResetInput(email, request.newPassword(), token));
+
+        return ResponseEntity.ok(AppResponse.success(
+                "PASSWORD_CHANGED",
+                "Password has been changed successfully"));
+    }
 
 }

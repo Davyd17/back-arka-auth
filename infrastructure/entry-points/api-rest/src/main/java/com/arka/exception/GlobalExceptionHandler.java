@@ -1,5 +1,7 @@
 package com.arka.exception;
 
+import com.arka.entities.VerificationCode;
+import com.arka.exceptions.InvalidCodeException;
 import com.arka.exceptions.InvalidCredentialsException;
 import com.arka.exceptions.UserAlreadyExistsException;
 import com.arka.exceptions.NotFountException;
@@ -77,5 +79,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(MessageResponse.builder().message("An unexpected error occurred").build());
+    }
+
+    @ExceptionHandler(InvalidCodeException.class)
+    public ResponseEntity<MessageResponse> handleEmailVerificationCodeException(
+            InvalidCodeException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(MessageResponse.builder().message(ex.getMessage()).build());
     }
 }

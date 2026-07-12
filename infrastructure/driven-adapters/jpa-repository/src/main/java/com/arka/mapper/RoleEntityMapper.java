@@ -1,6 +1,6 @@
 package com.arka.mapper;
 
-import com.arka.model.Role;
+import com.arka.entities.Role;
 import com.arka.tables.RoleEntity;
 import org.mapstruct.Mapper;
 

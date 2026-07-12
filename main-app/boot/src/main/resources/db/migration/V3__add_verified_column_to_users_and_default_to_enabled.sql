@@ -1,0 +1,8 @@
+ALTER TABLE users
+    ADD COLUMN is_verified BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE users
+    RENAME COLUMN enabled TO is_enabled;
+
+ALTER TABLE users
+    ALTER COLUMN is_enabled SET DEFAULT TRUE;
