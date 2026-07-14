@@ -22,17 +22,14 @@ public class PasswordResetUseCase {
 
     public void execute(PasswordResetInput input) {
 
-        User foundUser = userService.findByEmail(input.email());
-
         PasswordResetToken resetToken = passwordResetTokenGateway
-                .findByUserId(foundUser.getId())
+                .findByToken(input.token())
                 .orElseThrow(() -> new InvalidTokenException("Expired or invalid code"));
 
         verifyToken(resetToken, input.token());
-        foundUser.updatePassword(passwordEncryptionGateway
-                .encodePassword(input.newPassword()));
 
-        userGateway.save(foundUser);
+        updateUserWithNewPassword(resetToken.getUserId(), input.newPassword());
+
         resetToken.use();
         passwordResetTokenGateway.save(resetToken);
 
@@ -46,5 +43,14 @@ public class PasswordResetUseCase {
 
             throw new InvalidTokenException("Expired or invalid code");
         }
+    }
+
+    private void updateUserWithNewPassword(Long userId, String newPassword){
+
+        User foundUser = userService.findById(userId);
+        foundUser.updatePassword(passwordEncryptionGateway
+                .encodePassword(newPassword));
+
+        userGateway.save(foundUser);
     }
 }

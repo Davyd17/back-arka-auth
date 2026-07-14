@@ -1,6 +1,7 @@
 package com.arka.request;
 
 
+import com.arka.exception.Required;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -16,12 +17,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserLoginRequest {
 
-    @NotBlank(message = "El email es obligartorio")
+    @Required(field = "email")
     private String email;
 
-    @NotBlank(message = "El password es obligartorio")
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Solo se permiten caracteres alfanuméricos")
-    @Size(min = 8,message = "El password requiere minimo 8 caracteres")
+    @Required(field = "password")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Size(max = 50, message = "Password too long")
     private String password;
 
 }
