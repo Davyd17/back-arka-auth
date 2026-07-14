@@ -7,6 +7,10 @@ public record PasswordResetRequest(
 
         @Required(field = "password")
         @Size(min = 8, message = "Password must be at least 8 characters long")
-        String newPassword
+        @Size(max = 50, message = "Password too long")
+        String newPassword,
+
+        @Required(field = "token")
+        String token
 ) {
 }
