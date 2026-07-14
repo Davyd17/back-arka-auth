@@ -4,6 +4,7 @@ import com.arka.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,11 +29,16 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfig.corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/error").permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/login",
+                                "/api/v1/register",
+                                "/api/v1/forgot-password",
+                                "/api/v1/reset-password",
+                                "/error").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
-                        .requestMatchers("auth/v3/api-docs/**",
-                                "auth/swagger-ui/**",
-                                "auth/swagger-ui.html",
+                        .requestMatchers("/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
                                 "/scalar/**").permitAll()
                         .requestMatchers("/password-reset-info.html").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
