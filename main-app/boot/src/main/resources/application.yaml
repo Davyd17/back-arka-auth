@@ -92,12 +92,16 @@ notifications:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
-    operationsSorter: method
-    tagsSorter: alpha
-    docExpansion: none
-    defaultModelsExpandDepth: -1
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    default-models-expand-depth: -1
   api-docs:
     path: /v3/api-docs
+  openapi:
+    servers:
+      - url: /auth
+        description: Auth Service Base URL
 
 api:
   base-url: ${API_BASE_URL}
