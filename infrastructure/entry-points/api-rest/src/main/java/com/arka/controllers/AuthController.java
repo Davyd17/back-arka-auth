@@ -5,15 +5,14 @@ import com.arka.dto.output.AuthLoginOutput;
 import com.arka.dto.output.AuthRegisterOutput;
 import com.arka.mapper.AuthRestMapper;
 import com.arka.mapper.UserRestMapper;
+import com.arka.request.ForgotPasswordRequest;
 import com.arka.request.PasswordResetRequest;
 import com.arka.request.UserLoginRequest;
 import com.arka.request.UserRegisterRequest;
 import com.arka.response.AppResponse;
 import com.arka.response.AuthLoginResponse;
 import com.arka.response.AuthRegisterResponse;
-import com.arka.usecase.LoginUserUseCase;
-import com.arka.usecase.PasswordResetUseCase;
-import com.arka.usecase.RegisterUserUseCase;
+import com.arka.usecase.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,9 +29,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(name = "auth", description = "Flujo de autenticacion")
+@Tag(name = "auth", description = "Authentication flow")
 public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
@@ -41,24 +40,16 @@ public class AuthController {
 
     private final UserRestMapper userMapper;
     private final AuthRestMapper authMapper;
-
-    /**
-     * Creacion de usuarios en el sistema
-     *
-     * @param request objeto de entrada para ejecucion del servicio
-     * @return AuthResponse con el cliente creado
-     */
+    private final SendPasswordResetTokenEmailUseCase sendPasswordResetTokenEmailUseCase;
 
     @PostMapping("/register")
     @Operation(
-            summary = "Registrar un cliente nuevo",
-            description = "Registro de clientes ARKA"
-
-    )
+            summary = "Register a new user",
+            description = "Users registration")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Cliente creado con exito",
+                    description = "User successfully created",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = AuthRegisterResponse.class)
@@ -67,14 +58,8 @@ public class AuthController {
     })
     public ResponseEntity<AuthRegisterResponse> register(@Valid @RequestBody UserRegisterRequest request) {
 
-        // Print the raw DTO to CloudWatch
-        System.out.println("DEBUG 1 - DTO: " + request);
-
         AuthRegisterOutput authOutput =
                 registerUserUseCase.execute(userMapper.toInput(request));
-
-        // Print the Entity to see if MapStruct actually moved the data
-        System.out.println("DEBUG 2 - Entity User: " + authOutput.user());
 
         AuthRegisterResponse response = authMapper.toResponse(authOutput);
 
@@ -96,13 +81,23 @@ public class AuthController {
         return ResponseEntity.ok(authMapper.toResponse(authOutput));
     }
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<AppResponse<Void>> resetPassword(Authentication authentication,
-                                                           @Valid @RequestBody PasswordResetRequest request,
-                                                           @RequestParam("token") String token) {
+    @PostMapping("/forgot-password")
+    public ResponseEntity<AppResponse<Void>> sendEmailPasswordResetToken(
+            @Valid @RequestBody ForgotPasswordRequest request){
 
-        String email = authentication.getName();
-        passwordResetUseCase.execute(new PasswordResetInput(email, request.newPassword(), token));
+        sendPasswordResetTokenEmailUseCase.execute(request.email());
+
+        return ResponseEntity.ok(AppResponse.success(
+                "PASSWORD_RESET_TOKEN_SENT",
+                "Password reset token sent successfully"));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<AppResponse<Void>> resetPassword(
+            @Valid @RequestBody PasswordResetRequest request) {
+
+        passwordResetUseCase.execute(
+                new PasswordResetInput(request.newPassword(), request.token()));
 
         return ResponseEntity.ok(AppResponse.success(
                 "PASSWORD_CHANGED",

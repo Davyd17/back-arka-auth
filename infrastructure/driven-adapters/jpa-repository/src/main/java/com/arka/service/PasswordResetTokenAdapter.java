@@ -22,6 +22,11 @@ public class PasswordResetTokenAdapter implements PasswordResetTokenGateway {
     }
 
     @Override
+    public Optional<PasswordResetToken> findByToken(String token) {
+        return repository.findByToken(token).map(mapper::toDomain);
+    }
+
+    @Override
     public PasswordResetToken save(PasswordResetToken token) {
         return mapper.toDomain(repository.save(mapper.toEntity(token)));
     }

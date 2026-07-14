@@ -16,13 +16,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
 
     private final FindCurrentUserByEmailUseCase findCurrentUserByEmailUseCase;
-    private final SendPasswordResetTokenEmailUseCase sendPasswordResetTokenEmailUseCase;
     private final UserRestMapper userMapper;
     private final SendVerificationCodeEmailUseCase sendVerificationCodeEmailUseCase;
     private final VerifyUserEmailUseCase verifyUserEmailUseCase;
@@ -36,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toResponse(user));
     }
 
-    @PostMapping("/send-code")
+    @PostMapping("/verify-email/request")
     public ResponseEntity<AppResponse<Void>> sendEmailVerificationCode(Authentication authentication) {
 
         sendVerificationCodeEmailUseCase.execute(authentication.getName());
@@ -58,17 +57,5 @@ public class UserController {
                         authentication.getName())
         ));
     }
-
-    @PostMapping("/send-password-reset-token")
-    public ResponseEntity<AppResponse<Void>> sendEmailPasswordResetToken(Authentication authentication){
-
-        sendPasswordResetTokenEmailUseCase.execute(authentication.getName());
-
-        return ResponseEntity.ok(AppResponse.success(
-                "PASSWORD_RESET_TOKEN_SENT",
-                "Password reset token sent successfully"));
-    }
-
-
 
 }
