@@ -92,8 +92,6 @@ notifications:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
-    config-url: /v3/api-docs/swagger-config
-    url: /v3/api-docs
     operationsSorter: method
     tagsSorter: alpha
     docExpansion: none
