@@ -3,6 +3,7 @@ server:
     context-path: /auth
   port: 8081
   address: 0.0.0.0
+  forward-headers-strategy: framework
 
 spring:
 
