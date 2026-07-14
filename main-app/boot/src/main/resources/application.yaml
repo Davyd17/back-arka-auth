@@ -91,15 +91,15 @@ notifications:
 
 springdoc:
   swagger-ui:
-    path: "/auth/swagger-ui.html"
-    config-url: /auth/v3/api-docs/swagger-config
-    url: /auth/v3/api-docs
+    path: "/swagger-ui.html"
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
     operationsSorter: method
     tagsSorter: alpha
     docExpansion: none
     defaultModelsExpandDepth: -1
   api-docs:
-    path: /auth/v3/api-docs
+    path: /v3/api-docs
 
 api:
   base-url: ${API_BASE_URL}
