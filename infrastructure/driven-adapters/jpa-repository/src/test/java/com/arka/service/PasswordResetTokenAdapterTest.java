@@ -48,7 +48,7 @@ class PasswordResetTokenAdapterTest {
     void shouldUpdateSeededPasswordResetToken() {
 
         PasswordResetToken existingToken = mapper.toDomain(
-                repository.findByUserId(1L).orElseThrow());
+                repository.findByUserId(2L).orElseThrow());
 
         existingToken.use();
         PasswordResetToken updatedToken = passwordResetTokenAdapter.save(existingToken);

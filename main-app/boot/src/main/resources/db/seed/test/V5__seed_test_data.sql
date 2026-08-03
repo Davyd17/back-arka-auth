@@ -57,8 +57,4 @@ INSERT INTO password_reset_tokens (token, expires_at, is_used, user_id)
 VALUES
     ('a1b2c3d4-e5f6-7890-abcd-ef1234567890',
      NOW() + INTERVAL '10 minutes',
-     FALSE, 2),
-
-    ('expired-token-0000-0000-000000000000',
-     NOW() - INTERVAL '1 hour',
-     FALSE, 1);
+     FALSE, 2);
