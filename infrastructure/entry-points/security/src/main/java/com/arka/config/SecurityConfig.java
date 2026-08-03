@@ -1,6 +1,7 @@
 package com.arka.config;
 
 import com.arka.JwtAuthenticationFilter;
+import com.arka.SecurityExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ public class SecurityConfig {
 
     private final CorsConfig corsConfig;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final SecurityExceptionHandler securityExceptionHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,6 +45,9 @@ public class SecurityConfig {
                         .requestMatchers("/password-reset-info.html").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(securityExceptionHandler)
+                        .accessDeniedHandler(securityExceptionHandler))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

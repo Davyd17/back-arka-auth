@@ -3,6 +3,8 @@ package com.arka;
 import com.arka.gateway.security.jwt.JwtManagerGateway;
 import com.arka.user.SecurityUser;
 import com.arka.user.SecurityUserMapper;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,28 +44,51 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        final String jwt = authHeader.substring(7);
-        final String userEmail = managerGateway.extractEmail(jwt);
+        try {
 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            final String jwt = authHeader.substring(7);
+            final String userEmail = managerGateway.extractEmail(jwt);
 
-            SecurityUser userDetails = (SecurityUser) userDetailsService.loadUserByUsername(userEmail);
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            log.debug("User: {} | Authorities: {}", userEmail, userDetails.getAuthorities());
+                SecurityUser userDetails = (SecurityUser) userDetailsService.loadUserByUsername(userEmail);
 
-            log.debug("Token valid: {} for user: {}", managerGateway.isTokenValid(jwt, mapper.toDto(userDetails)), userEmail);
+                log.debug("User: {} | Authorities: {}", userEmail, userDetails.getAuthorities());
 
-            if (managerGateway.isTokenValid(jwt, mapper.toDto(userDetails))) {
-                var authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                log.debug("Token valid: {} for user: {}", managerGateway.isTokenValid(jwt, mapper.toDto(userDetails)), userEmail);
+
+                if (managerGateway.isTokenValid(jwt, mapper.toDto(userDetails))) {
+                    var authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
-        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException ex){
+
+            log.warn("Expired JWT token for request: {}", request.getRequestURI());
+
+            writeErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED,
+                    "TOKEN_EXPIRED", "Your session has expired, please log in again");
+
+        } catch (JwtException ex){
+
+            log.warn("Invalid JWT token: {}", ex.getMessage());
+            writeErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED,
+                    "INVALID_TOKEN", "Invalid authentication token");
+        }
+    }
+
+    private void writeErrorResponse(HttpServletResponse response,
+                                    int status, String code, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        response.getWriter().write(
+                String.format("{\"code\": \"%s\", \"message\": \"%s\"}", code, message));
     }
 }

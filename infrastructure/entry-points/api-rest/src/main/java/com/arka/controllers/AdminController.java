@@ -15,10 +15,10 @@ public class AdminController {
     private final AssignRoleUseCase assignRoleUseCase;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/users/{userId}/role/{roleId}")
+    @PatchMapping("/users/{userId}/role/{roleId}")
     public ResponseEntity<AssignRoleResponse> assignRole(
-            @PathVariable Long userId,
-            @PathVariable Long roleId
+            @PathVariable("userId") Long userId,
+            @PathVariable("roleId") Long roleId
     ) {
 
         var output = assignRoleUseCase.execute(userId, roleId);
