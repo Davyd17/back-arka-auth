@@ -24,7 +24,7 @@ VALUES
     ('user',
      'user@arka.com',
      '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-     TRUE, TRUE, NOW(), NOW(), 2),
+     TRUE, FALSE, NOW(), NOW(), 2),
 
     ('unverified',
      'unverified@arka.com',
@@ -34,7 +34,7 @@ VALUES
     ('disabled',
      'disabled@arka.com',
      '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-     FALSE, TRUE, NOW(), NOW(), 2);
+     TRUE, TRUE, NOW(), NOW(), 2);
 
 -- 3. Verification codes
 -- Active code for unverified user (user_id = 3)
