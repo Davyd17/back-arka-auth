@@ -3,7 +3,7 @@ package com.arka.usecase;
 import com.arka.entities.User;
 import com.arka.entities.VerificationCode;
 import com.arka.exceptions.InvalidCodeException;
-import com.arka.exceptions.NotFountException;
+import com.arka.exceptions.NotFoundException;
 import com.arka.gateway.repository.UserGateway;
 import com.arka.gateway.repository.VerificationCodeGateway;
 import com.arka.service.UserService;
@@ -24,7 +24,7 @@ public class VerifyUserEmailUseCase {
 
         VerificationCode verificationCode =
                 verificationCodeGateway.findByUserId(foundUser.getId())
-                        .orElseThrow(() -> new NotFountException("Invalid verification code"));
+                        .orElseThrow(() -> new NotFoundException("Invalid verification code"));
 
         verifyCode(verificationCode, code);
         foundUser.verify();
