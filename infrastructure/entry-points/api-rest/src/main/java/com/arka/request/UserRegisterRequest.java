@@ -15,7 +15,6 @@ public record UserRegisterRequest(
         String email,
 
         @NotBlank(message = "El password es obligartorio")
-        @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Solo se permiten caracteres alfanuméricos")
         @Size(min = 8, message = "El password requiere minimo 8 caracteres")
         String password
 
