@@ -1,7 +1,9 @@
 # -------- Build Stage --------
-FROM public.ecr.aws/amazoncorretto/amazoncorretto:21 AS build
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:21-al2023-jdk AS build
 
 WORKDIR /app
+
+RUN yum install -y findutils
 
 COPY . .
 
@@ -11,7 +13,7 @@ RUN ./gradlew clean build -x test --no-daemon
 
 
 # -------- Production Stage --------
-FROM public.ecr.aws/amazoncorretto/amazoncorretto:21 AS production
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:21-al2023-headless AS production
 
 WORKDIR /app
 
