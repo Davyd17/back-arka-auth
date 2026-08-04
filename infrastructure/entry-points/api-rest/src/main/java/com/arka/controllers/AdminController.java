@@ -1,5 +1,6 @@
 package com.arka.controllers;
 
+import com.arka.dto.output.AssignRoleOutput;
 import com.arka.response.AssignRoleResponse;
 import com.arka.usecase.AssignRoleUseCase;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,13 @@ public class AdminController {
     private final AssignRoleUseCase assignRoleUseCase;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/users/{userId}/role/{roleId}")
+    @PatchMapping("/users/{userId}/role/{roleId}")
     public ResponseEntity<AssignRoleResponse> assignRole(
-            @PathVariable Long userId,
-            @PathVariable Long roleId
+            @PathVariable("userId") Long userId,
+            @PathVariable("roleId") Long roleId
     ) {
 
-        var output = assignRoleUseCase.execute(userId, roleId);
+        AssignRoleOutput output = assignRoleUseCase.execute(userId, roleId);
 
         return ResponseEntity.ok(AssignRoleResponse.of(output));
     }

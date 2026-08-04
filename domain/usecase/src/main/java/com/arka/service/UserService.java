@@ -2,7 +2,7 @@ package com.arka.service;
 
 import com.arka.exceptions.UserAlreadyExistsException;
 import com.arka.entities.User;
-import com.arka.exceptions.NotFountException;
+import com.arka.exceptions.NotFoundException;
 import com.arka.gateway.repository.UserGateway;
 import lombok.RequiredArgsConstructor;
 
@@ -14,14 +14,14 @@ public class UserService {
     public User findById(Long userId) {
 
         return userGateway.findById(userId)
-                .orElseThrow(() -> new NotFountException(
+                .orElseThrow(() -> new NotFoundException(
                         String.format("User with id %d not found", userId)
                 ));
     }
 
     public User findByEmail(String email) {
         return userGateway.findUserByEmail(email)
-                .orElseThrow(() -> new NotFountException(
+                .orElseThrow(() -> new NotFoundException(
                         String.format("User with email %s not found", email)
                 ));
     }

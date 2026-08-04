@@ -14,7 +14,7 @@ public class VerificationCode {
     private Long id;
     private String code;
     private Instant expiresAt;
-    private boolean isUsed;
+    private boolean used;
     private User user;
 
     public static VerificationCode create(
@@ -23,7 +23,7 @@ public class VerificationCode {
         return VerificationCode.builder()
                 .code(generateCode())
                 .expiresAt(expiresAt)
-                .isUsed(false)
+                .used(false)
                 .user(user)
                 .build();
     }
@@ -43,6 +43,6 @@ public class VerificationCode {
     }
 
     public void use() {
-        this.isUsed = true;
+        this.used = true;
     }
 }

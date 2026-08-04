@@ -23,8 +23,8 @@ public class VerificationCodeEntity {
     @Column(nullable = false)
     private Instant expiresAt;
 
-    @Column(nullable = false)
-    private boolean isUsed = false;
+    @Column(nullable = false, name = "is_used")
+    private boolean used = false;
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "user_id", unique = true, nullable = false)

@@ -1,10 +1,9 @@
 package com.arka.exception;
 
-import com.arka.entities.VerificationCode;
 import com.arka.exceptions.InvalidCodeException;
 import com.arka.exceptions.InvalidCredentialsException;
 import com.arka.exceptions.UserAlreadyExistsException;
-import com.arka.exceptions.NotFountException;
+import com.arka.exceptions.NotFoundException;
 import com.arka.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +27,8 @@ public class GlobalExceptionHandler {
                 .body(MessageResponse.builder().message(ex.getMessage()).build());
     }
 
-    @ExceptionHandler(NotFountException.class)
-    public ResponseEntity<MessageResponse> handleUserNotFound(NotFountException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<MessageResponse> handleUserNotFound(NotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(MessageResponse.builder().message(ex.getMessage()).build());
