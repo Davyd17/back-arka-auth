@@ -1,5 +1,6 @@
 package com.arka.controllers;
 
+import com.arka.dto.output.AssignRoleOutput;
 import com.arka.response.AssignRoleResponse;
 import com.arka.usecase.AssignRoleUseCase;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class AdminController {
             @PathVariable("roleId") Long roleId
     ) {
 
-        var output = assignRoleUseCase.execute(userId, roleId);
+        AssignRoleOutput output = assignRoleUseCase.execute(userId, roleId);
 
         return ResponseEntity.ok(AssignRoleResponse.of(output));
     }
