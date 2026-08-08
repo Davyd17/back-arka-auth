@@ -7,6 +7,7 @@ dependencies {
     implementation project(":model")
     implementation project(":security")
     implementation project(":jpa-repository")
+    implementation project(":core-service-provider")
     implementation ("org.springframework.boot:spring-boot-starter")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 }

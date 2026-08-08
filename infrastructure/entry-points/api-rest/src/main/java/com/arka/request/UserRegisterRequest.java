@@ -1,5 +1,6 @@
 package com.arka.request;
 
+import com.arka.exception.Required;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -7,15 +8,27 @@ import jakarta.validation.constraints.Size;
 
 public record UserRegisterRequest(
 
-        @NotBlank(message = "El username es obligartorio")
+        @Required(field = "username")
+        @Pattern(regexp = "^[a-zA-Z0-9_]+$",
+                message = "Username must only contain letters, numbers and underscores")
         String username,
 
-        @NotBlank(message = "El email es obligartorio")
-        @Email(message = "El email ingresado no es valido")
+        @Required(field = "name")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]+$",
+                message = "Name must only contain letters")
+        String name,
+
+        @Required(field = "lastName")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+$",
+                message = "Last name must only contain letters without spaces")
+        String lastName,
+
+        @Required(field = "email")
+        @Email(message = "Please enter a valid email")
         String email,
 
-        @NotBlank(message = "El password es obligartorio")
-        @Size(min = 8, message = "El password requiere minimo 8 caracteres")
+        @Required(field = "password")
+        @Size(min = 8, message = "Password required at least 8 characters")
         String password
 
 ) {
