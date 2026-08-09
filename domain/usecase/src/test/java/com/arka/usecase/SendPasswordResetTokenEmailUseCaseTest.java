@@ -41,10 +41,14 @@ class SendPasswordResetTokenEmailUseCaseTest {
     @Mock
     private CloudStorageGateway storageGateway;
 
-    @Mock private UserGateway userGateway;
-    @Mock private PasswordEncryptionGateway passwordEncryption;
-    @Mock private RoleService roleService;
-    @Mock private AuthService authService;
+    @Mock
+    private UserGateway userGateway;
+    @Mock
+    private PasswordEncryptionGateway passwordEncryption;
+    @Mock
+    private RoleService roleService;
+    @Mock
+    private AuthService authService;
 
 
     @InjectMocks
@@ -56,7 +60,12 @@ class SendPasswordResetTokenEmailUseCaseTest {
     private static final String EMAIL = "john@arka.com";
 
     private UserRegisterInput buildInput() {
-        return new UserRegisterInput("johndoe", "john@arka.com", "plainPassword123");
+        return new UserRegisterInput(
+                "johndoe",
+                "john",
+                "doe",
+                "john@arka.com",
+                "plainPassword123");
     }
 
     @Test

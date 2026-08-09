@@ -107,6 +107,9 @@ springdoc:
 api:
   base-url: ${API_BASE_URL}
 
+core-service:
+  base-url: ${CORE_SERVICE_BASE_URL}
+
 logging:
   level:
     com.arka: DEBUG

@@ -74,15 +74,21 @@ class UserControllerTest {
         String email = "john@arka.com";
 
         UserOutput userOutput = new UserOutput(
-                1L, "John", "john@arka.com", buildDomainRole(), true, false, Instant.now());
+                1L,
+                "john",
+                "doe",
+                "John",
+                "john@arka.com",
+                buildDomainRole(),
+                Instant.now());
 
         UserResponse userResponse = new UserResponse(
                 1L,
                 "John",
+                "Doe",
+                "john_doe",
                 "john@arka.com",
                 buildRoleResponse(),
-                true,
-                false,
                 Instant.now());
 
         when(findCurrentUserByEmailUseCase.execute(email)).thenReturn(userOutput);

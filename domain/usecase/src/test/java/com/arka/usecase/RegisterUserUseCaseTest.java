@@ -1,11 +1,14 @@
 package com.arka.usecase;
 
+import com.arka.dto.input.CreateContactRequest;
 import com.arka.dto.input.UserRegisterInput;
 import com.arka.dto.output.AuthRegisterOutput;
+import com.arka.dto.output.ContactResponse;
 import com.arka.dto.value.TokenDetailsDto;
 import com.arka.entities.Role;
 import com.arka.entities.User;
 import com.arka.enums.RoleName;
+import com.arka.gateway.CoreServiceGateway;
 import com.arka.gateway.repository.UserGateway;
 import com.arka.gateway.security.PasswordEncryptionGateway;
 import com.arka.service.AuthService;
@@ -27,17 +30,28 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RegisterUserUseCaseTest {
 
-    @Mock private UserGateway userGateway;
-    @Mock private PasswordEncryptionGateway passwordEncryption;
-    @Mock private UserService userService;
-    @Mock private RoleService roleService;
-    @Mock private AuthService authService;
+    @Mock
+    private UserGateway userGateway;
+    @Mock
+    private CoreServiceGateway coreServiceGateway;
+    @Mock
+    private PasswordEncryptionGateway passwordEncryption;
+    @Mock
+    private UserService userService;
+    @Mock
+    private RoleService roleService;
+    @Mock
+    private AuthService authService;
 
     @InjectMocks
     private RegisterUserUseCase registerUserUseCase;
 
     private UserRegisterInput buildInput() {
-        return new UserRegisterInput("johndoe", "john@arka.com", "plainPassword123");
+        return new UserRegisterInput(
+                "johndoe",
+                "john", "doe",
+                "john@arka.com",
+                "plainPassword123");
     }
 
     @Test
@@ -46,11 +60,17 @@ class RegisterUserUseCaseTest {
         UserRegisterInput input = buildInput();
 
         Role userRole = Role.create(RoleName.USER, "User role");
-        User savedUser = User.create(input.username(), input.email(), "encodedPassword", userRole);
+
+        User savedUser = User.create(
+                input.username(), input.email(), "encodedPassword", userRole);
+
+        ContactResponse contactResponse = new ContactResponse(
+                1L, "john", "doe", "john@arka.com");
 
         when(roleService.findByName(RoleName.USER)).thenReturn(userRole);
         when(passwordEncryption.encodePassword(input.password())).thenReturn("encodedPassword");
         when(userGateway.save(any(User.class))).thenReturn(savedUser);
+        when(coreServiceGateway.createContact(any(CreateContactRequest.class))).thenReturn(contactResponse);
         when(authService.buildAuthToken(savedUser)).thenReturn(
                 new TokenDetailsDto("mock-token", "JWT", Instant.now()));
 
@@ -59,10 +79,13 @@ class RegisterUserUseCaseTest {
         assertThat(output).isNotNull();
         assertThat(output.tokenDetails().accessToken()).isEqualTo("mock-token");
         assertThat(output.user().username()).isEqualTo("johndoe");
+        assertThat(output.user().name()).isEqualTo("john");
 
         verify(userService).checkExistsByEmail(input.email());
         verify(userService).checkExistsByUsername(input.username());
         verify(userGateway).save(any(User.class));
+        verify(coreServiceGateway).createContact(
+                new CreateContactRequest("john", "doe", "john@arka.com"));
     }
 
     @Test
@@ -71,7 +94,7 @@ class RegisterUserUseCaseTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Missing registration user input");
 
-        verifyNoInteractions(userGateway, passwordEncryption, roleService, authService);
+        verifyNoInteractions(userGateway, coreServiceGateway, passwordEncryption, roleService, authService);
     }
 
     @Test
@@ -85,7 +108,7 @@ class RegisterUserUseCaseTest {
                 .hasMessage("Email already exists");
 
         verify(userService, never()).checkExistsByUsername(anyString());
-        verifyNoInteractions(userGateway, passwordEncryption, roleService, authService);
+        verifyNoInteractions(userGateway, coreServiceGateway, passwordEncryption, roleService, authService);
     }
 
     @Test
@@ -99,6 +122,6 @@ class RegisterUserUseCaseTest {
                 .hasMessage("Username already exists");
 
         verify(userService).checkExistsByEmail(input.email());
-        verifyNoInteractions(userGateway, passwordEncryption, roleService, authService);
+        verifyNoInteractions(userGateway, coreServiceGateway, passwordEncryption, roleService, authService);
     }
 }

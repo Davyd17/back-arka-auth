@@ -90,11 +90,11 @@ class AuthControllerTest {
                 Instant.now().plus(15, ChronoUnit.MINUTES));
     }
 
-    private RoleResponse buildRoleResponse(){
+    private RoleResponse buildRoleResponse() {
         return new RoleResponse("USER", "User role");
     }
 
-    private Role buildDomainRole(){
+    private Role buildDomainRole() {
         return new Role(1L, RoleName.USER, "User role");
     }
 
@@ -102,23 +102,37 @@ class AuthControllerTest {
     void shouldRegisterUserSuccessfully() throws Exception {
         // given
         UserRegisterRequest request = new UserRegisterRequest(
-                "John", "john@arka.com", "Password123!");
+                "John",
+                "jhon",
+                "doe",
+                "john@arka.com",
+                "Password123!");
 
         UserRegisterInput mappedInput = new UserRegisterInput(
-                "John", "john@arka.com", "Password123!");
+                "John",
+                "jhon",
+                "doe",
+                "john@arka.com",
+                "Password123!");
 
         UserOutput userOutput = new UserOutput(
-                1L, "John", "john@arka.com", buildDomainRole(), true, false, Instant.now());
+                1L,
+                "John",
+                "Doe",
+                "john_doe",
+                "john@arka.com",
+                buildDomainRole(),
+                Instant.now());
 
         AuthRegisterOutput authOutput = new AuthRegisterOutput(buildTokenDto(), userOutput);
 
         UserResponse userResponse = new UserResponse(
                 1L,
                 "John",
+                "Doe",
+                "john_doe",
                 "john@arka.com",
                 buildRoleResponse(),
-                true,
-                false,
                 Instant.now());
 
         AuthRegisterResponse authResponse = new AuthRegisterResponse(

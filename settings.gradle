@@ -13,7 +13,8 @@ include(":boot",
         ":jpa-repository",
         ":usecase",
         ":model",
-        ":security"
+        ":security",
+        ":core-service-provider"
 )
 
 project(":boot").projectDir = file("./main-app/boot")
@@ -21,6 +22,7 @@ project(":boot").projectDir = file("./main-app/boot")
 project(":jpa-repository").projectDir = file("./infrastructure/driven-adapters/jpa-repository")
 project(":aws-provider").projectDir = file("./infrastructure/driven-adapters/aws-provider")
 project(":security-provider").projectDir = file("./infrastructure/driven-adapters/security-provider")
+project(":core-service-provider").projectDir = file("./infrastructure/driven-adapters/core-service-provider")
 
 project(":api-rest").projectDir = file("./infrastructure/entry-points/api-rest")
 project(":security").projectDir = file("./infrastructure/entry-points/security")
