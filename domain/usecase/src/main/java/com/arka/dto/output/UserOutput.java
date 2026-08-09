@@ -7,11 +7,11 @@ import java.time.Instant;
 public record UserOutput(
 
         Long id,
+        String name,
+        String lastName,
         String username,
         String email,
         Role role,
-        boolean enabled,
-        boolean verified,
         Instant createdAt
 ) {
 }

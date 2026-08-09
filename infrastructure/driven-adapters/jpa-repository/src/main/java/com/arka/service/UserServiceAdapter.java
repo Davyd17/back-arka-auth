@@ -31,12 +31,7 @@ public class UserServiceAdapter implements UserGateway {
 
     @Override
     public User save(User user) {
-
         UserEntity entity = mapper.toEntity(user);
-
-        System.out.println("DEBUG 2 - Entity User: " + entity.getUsername());
-        System.out.println("DEBUG 2 - Entity User: " + entity.getEmail());
-
         return mapper.toDomain(userRepository.save(entity));
     }
 
@@ -48,6 +43,11 @@ public class UserServiceAdapter implements UserGateway {
     @Override
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
 }

@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface UserMapper {
 
+    @Mapping(target = "name", ignore = true)
     UserOutput toOutput(User user);
 
     UserSummary toSummary(User user);
