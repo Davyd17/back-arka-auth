@@ -6,7 +6,6 @@ import com.arka.request.VerificationCodeRequest;
 import com.arka.response.AppResponse;
 import com.arka.usecase.FindCurrentUserByEmailUseCase;
 import com.arka.response.UserResponse;
-import com.arka.usecase.SendPasswordResetTokenEmailUseCase;
 import com.arka.usecase.SendVerificationCodeEmailUseCase;
 import com.arka.usecase.VerifyUserEmailUseCase;
 import lombok.RequiredArgsConstructor;

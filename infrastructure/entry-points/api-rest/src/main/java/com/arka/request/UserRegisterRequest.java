@@ -31,7 +31,6 @@ public record UserRegisterRequest(
         String email,
 
         @Required(field = "password")
-        @Size(min = 8, message = "Password required at least 8 characters")
         @Size(min = 8, max = 72, message = "Password must be between 8 and 72 characters")
         String password
 
