@@ -65,7 +65,7 @@ class PasswordResetUseCaseTest {
         assertThatThrownBy(() -> passwordResetUseCase.execute(
                 new PasswordResetInput("newPassword123", "invalid-token")))
                 .isInstanceOf(InvalidTokenException.class)
-                .hasMessage("Expired or invalid code");
+                .hasMessage("The provided token is invalid or has expired.");
 
         verifyNoInteractions(userGateway);
     }
@@ -80,7 +80,8 @@ class PasswordResetUseCaseTest {
 
         assertThatThrownBy(() -> passwordResetUseCase.execute(
                 new PasswordResetInput("newPassword123", expiredToken.getToken())))
-                .isInstanceOf(InvalidTokenException.class);
+                .isInstanceOf(InvalidTokenException.class)
+                .hasMessage("The provided token is invalid or has expired.");
 
         verifyNoInteractions(userGateway);
     }
