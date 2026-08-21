@@ -2,11 +2,8 @@ package com.arka.controllers;
 
 import com.arka.dto.output.AssignRoleOutput;
 import com.arka.enums.RoleName;
-import com.arka.service.RoleService;
 import com.arka.usecase.AssignRoleUseCase;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
@@ -32,9 +29,6 @@ class AdminControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockitoBean
     private AssignRoleUseCase assignRoleUseCase;
 
@@ -55,7 +49,7 @@ class AdminControllerTest {
 
 
         // when & then
-        mockMvc.perform(patch("/api/v1/admin/users/{userId}/role/{roleId}", userId, roleId))
+        mockMvc.perform(patch("/api/v1/auth/admin/users/{userId}/role/{roleId}", userId, roleId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userId").value(userId))
                 .andExpect(jsonPath("$.roleName").value("ADMIN"));

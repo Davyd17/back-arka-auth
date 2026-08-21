@@ -1,6 +1,4 @@
 server:
-  servlet:
-    context-path: /auth
   port: 8081
   address: 0.0.0.0
   forward-headers-strategy: framework
@@ -99,10 +97,6 @@ springdoc:
     default-models-expand-depth: -1
   api-docs:
     path: /v3/api-docs
-  openapi:
-    servers:
-      - url: /auth
-        description: Auth Service Base URL
 
 api:
   base-url: ${API_BASE_URL}

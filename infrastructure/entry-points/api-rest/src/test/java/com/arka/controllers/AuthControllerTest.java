@@ -143,11 +143,11 @@ class AuthControllerTest {
         when(authMapper.toResponse(authOutput)).thenReturn(authResponse);
 
         // when & then
-        mockMvc.perform(post("/api/v1/register")
+        mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "http://localhost/api/v1/register/1"))
+                .andExpect(header().string("Location", "http://localhost/api/v1/auth/register/1"))
                 .andExpect(jsonPath("$.tokenDetails.accessToken").value("mock-token"))
                 .andExpect(jsonPath("$.user.id").value(1L))
                 .andExpect(jsonPath("$.user.email").value("john@arka.com"));
@@ -173,7 +173,7 @@ class AuthControllerTest {
         when(authMapper.toResponse(authOutput)).thenReturn(authResponse);
 
         // when & then
-        mockMvc.perform(post("/api/v1/login")
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -191,7 +191,7 @@ class AuthControllerTest {
         doNothing().when(sendPasswordResetTokenEmailUseCase).execute(email);
 
         // when & then
-        mockMvc.perform(post("/api/v1/forgot-password")
+        mockMvc.perform(post("/api/v1/auth/forgot-password")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -209,7 +209,7 @@ class AuthControllerTest {
         doNothing().when(passwordResetUseCase).execute(any(PasswordResetInput.class));
 
         // when & then
-        mockMvc.perform(post("/api/v1/reset-password")
+        mockMvc.perform(post("/api/v1/auth/reset-password")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())

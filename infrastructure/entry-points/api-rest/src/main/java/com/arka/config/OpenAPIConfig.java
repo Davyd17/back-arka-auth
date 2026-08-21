@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,19 @@ public class OpenAPIConfig {
 
     @Value("${api.base-url}")
     String apiBaseUrl;
+
+    @Bean
+    public GroupedOpenApi authApi(){
+        return GroupedOpenApi.builder()
+                .group("auth-api")
+                .pathsToMatch(
+                        "/api/v1/auth/**")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
+                        .title("Arka Auth/Identity API")
+                        .description("Arka users auth management.")
+                        .version("v1.0.0")))
+                .build();
+    }
 
     @Bean
     public OpenAPI customOpenAPI() {
