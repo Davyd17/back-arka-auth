@@ -24,7 +24,7 @@ public class PasswordResetUseCase {
 
         PasswordResetToken resetToken = passwordResetTokenGateway
                 .findByToken(input.token())
-                .orElseThrow(() -> new InvalidTokenException("Expired or invalid code"));
+                .orElseThrow(InvalidTokenException::new);
 
         verifyToken(resetToken, input.token());
 
@@ -41,7 +41,7 @@ public class PasswordResetUseCase {
                 || token.isExpired()
                 || token.isUsed()) {
 
-            throw new InvalidTokenException("Expired or invalid code");
+            throw new InvalidTokenException();
         }
     }
 

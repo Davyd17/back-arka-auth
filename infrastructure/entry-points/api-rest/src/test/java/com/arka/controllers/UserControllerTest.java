@@ -95,7 +95,7 @@ class UserControllerTest {
         when(userMapper.toResponse(userOutput)).thenReturn(userResponse);
 
         // when & then
-        mockMvc.perform(get("/api/v1/user/me"))
+        mockMvc.perform(get("/api/v1/auth/user/me"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.email").value(email));
@@ -112,7 +112,7 @@ class UserControllerTest {
         doNothing().when(sendVerificationCodeEmailUseCase).execute(email);
 
         // when & then
-        mockMvc.perform(post("/api/v1/user/verify-email/request")
+        mockMvc.perform(post("/api/v1/auth/user/verify-email/request")
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("VERIFICATION_CODE_SENT"))
@@ -132,7 +132,7 @@ class UserControllerTest {
         doNothing().when(verifyUserEmailUseCase).execute(email, code);
 
         // when & then
-        mockMvc.perform(patch("/api/v1/user/verify-email")
+        mockMvc.perform(patch("/api/v1/auth/user/verify-email")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
