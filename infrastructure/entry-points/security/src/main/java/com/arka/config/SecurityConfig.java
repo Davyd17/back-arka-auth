@@ -32,10 +32,10 @@ public class SecurityConfig {
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfig.corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/v1/login",
-                                "/api/v1/register",
-                                "/api/v1/forgot-password",
-                                "/api/v1/reset-password",
+                                "/api/v1/auth/login",
+                                "/api/v1/auth/register",
+                                "/api/v1/auth/forgot-password",
+                                "/api/v1/auth/reset-password",
                                 "/error").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers("/v3/api-docs/**",
@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/scalar/**").permitAll()
                         .requestMatchers("/password-reset-info.html").permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/auth/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(securityExceptionHandler)
