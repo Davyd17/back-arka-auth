@@ -42,7 +42,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/scalar/**").permitAll()
-                        .requestMatchers("/password-reset-info.html").permitAll()
+                        .requestMatchers("/auth/password-reset-info.html").permitAll()
                         .requestMatchers("/api/v1/auth/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
