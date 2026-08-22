@@ -15,7 +15,6 @@ public class AdminController {
 
     private final AssignRoleUseCase assignRoleUseCase;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/users/{userId}/role/{roleId}")
     public ResponseEntity<AssignRoleResponse> assignRole(
             @PathVariable("userId") Long userId,

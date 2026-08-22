@@ -1,4 +1,4 @@
-package com.arka.config;
+package com.arka.docs;
 
 
 import io.swagger.v3.oas.models.Components;
