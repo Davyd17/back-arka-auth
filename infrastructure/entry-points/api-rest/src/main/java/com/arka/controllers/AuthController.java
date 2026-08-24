@@ -1,6 +1,5 @@
 package com.arka.controllers;
 
-import com.arka.docs.CommonApiResponses;
 import com.arka.dto.input.PasswordResetInput;
 import com.arka.dto.output.AuthLoginOutput;
 import com.arka.dto.output.AuthRegisterOutput;
@@ -23,8 +22,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -101,7 +98,12 @@ public class AuthController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Invalid credentials or malformed request payload",
+                    description = "Malformed or invalid request payload",
+                    content = @Content(schema = @Schema(implementation = AppResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Invalid credential",
                     content = @Content(schema = @Schema(implementation = AppResponse.class))
             ),
             @ApiResponse(
